@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:setting/data/preference/general_setting.dart';
 import 'package:setting/l10n/app_localizations.dart';
 import 'package:setting/network/api_service.dart';
-import 'package:setting/network/data/baseUrl.dart';
+import 'package:setting/network/data/base_url.dart';
 import 'package:setting/screens/setting_screen.dart';
 import 'package:setting/theme_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';

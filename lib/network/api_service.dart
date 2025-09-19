@@ -3,7 +3,7 @@ import 'dart:ui';
 
 import 'package:http/http.dart' as http;
 import 'package:setting/data/preference/general_setting.dart';
-import 'package:setting/network/data/baseUrl.dart';
+import 'package:setting/network/data/base_url.dart';
 import 'package:setting/utils/common_util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
