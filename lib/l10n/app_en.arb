@@ -38,5 +38,8 @@
     "hospital_name": "Hospital name",
     "message_contents": "Message info",
     "button_preview": "Preview",
-    "save": "Save"
+    "save": "Save",
+    "login_id_hint": "ID",
+    "login_password_hint": "PASSWORD",
+    "login_button": "LOGIN"
 }

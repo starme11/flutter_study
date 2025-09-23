@@ -1,12 +1,10 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:setting/data/preference/app_preference.dart';
 import 'package:setting/data/preference/emergency_setting.dart';
 import 'package:setting/l10n/app_localizations.dart';
 import 'package:setting/screens/emergency_view_screen.dart';
 import 'package:setting/widgets/tool_bar.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../theme_provider.dart';
 
@@ -18,8 +16,10 @@ class EmergencyEditScreen extends StatefulWidget {
 }
 
 class _EmergencyEditScreenState extends State<EmergencyEditScreen> {
-  late SharedPreferences prefs;
-  EmergencySetting? setting;
+  EmergencySetting setting = EmergencySetting(
+    useEmergencyCard: false,
+    contact: ["", "", ""],
+  );
 
   late TextEditingController _contact1TextController;
   late TextEditingController _contact2TextController;
@@ -27,34 +27,6 @@ class _EmergencyEditScreenState extends State<EmergencyEditScreen> {
   late TextEditingController _hospitalNameTextController;
   late TextEditingController _hcpTextController;
   late TextEditingController _messageTextController;
-
-  Future initPreference() async {
-    prefs = await SharedPreferences.getInstance();
-
-    final settingJson = prefs.getString("EMERGENCY_SETTING");
-
-    if (settingJson != null) {
-      Map<String, dynamic> obj = jsonDecode(settingJson);
-      setState(() {
-        setting = EmergencySetting.fromJson(obj);
-      });
-      print("useEmergencyCard :: ${setting?.useEmergencyCard}");
-      print("contact :: ${setting?.contact}");
-      print("hospital :: ${setting?.hospital}");
-      print("doctor :: ${setting?.doctor}");
-      print("message :: ${setting?.message}");
-    } else {
-      setState(() {
-        setting = EmergencySetting(
-          useEmergencyCard: false,
-          contact: [" ", " ", " "],
-          hospital: null,
-          doctor: null,
-          message: null,
-        );
-      });
-    }
-  }
 
   @override
   void initState() {
@@ -67,7 +39,11 @@ class _EmergencyEditScreenState extends State<EmergencyEditScreen> {
     _hcpTextController = TextEditingController(text: "");
     _messageTextController = TextEditingController(text: "");
 
-    initPreference();
+    AppPreference.getEmergencySetting().then((value) {
+      setState(() {
+        setting = value;
+      });
+    });
   }
 
   @override
@@ -81,32 +57,28 @@ class _EmergencyEditScreenState extends State<EmergencyEditScreen> {
     _hcpTextController.dispose();
     _messageTextController.dispose();
 
-    prefs = await SharedPreferences.getInstance();
+    setting.contact[0] = _contact1TextController.text;
+    setting.contact[1] = _contact2TextController.text;
+    setting.contact[2] = _contact3TextController.text;
+    setting.hospital = _hospitalNameTextController.text;
+    setting.doctor = _hcpTextController.text;
+    setting.message = _messageTextController.text;
 
-    setting?.contact[0] = _contact1TextController.text;
-    setting?.contact[1] = _contact2TextController.text;
-    setting?.contact[2] = _contact3TextController.text;
-    setting?.hospital = _hospitalNameTextController.text;
-    setting?.doctor = _hcpTextController.text;
-    setting?.message = _messageTextController.text;
-
-    await prefs.setString("EMERGENCY_SETTING", jsonEncode(setting?.toJson()));
+    AppPreference.savePreference(setting);
   }
 
   @override
   Widget build(BuildContext context) {
     final AppLocalizations localizations = AppLocalizations.of(context)!;
     final themeProvider = Provider.of<ThemeProvider>(context);
-    if (setting != null) {
-      _contact1TextController.text = setting?.contact[0] ?? " ";
-      _contact2TextController.text = setting?.contact[1] ?? " ";
-      _contact3TextController.text = setting?.contact[2] ?? " ";
+    _contact1TextController.text = setting.contact[0];
+    _contact2TextController.text = setting.contact[1];
+    _contact3TextController.text = setting.contact[2];
 
-      _hospitalNameTextController.text = setting?.hospital ?? "";
-      _hcpTextController.text = setting?.doctor ?? "";
+    _hospitalNameTextController.text = setting.hospital ?? "";
+    _hcpTextController.text = setting.doctor ?? "";
 
-      _messageTextController.text = setting?.message ?? "";
-    }
+    _messageTextController.text = setting.message ?? "";
     // channel_name_emergency
     return Scaffold(
       appBar: ToolBar(
@@ -193,9 +165,7 @@ class _EmergencyEditScreenState extends State<EmergencyEditScreen> {
                     color: Color.fromRGBO(33, 33, 33, 1),
                     fontWeight: FontWeight.bold,
                   ),
-                  onChanged: (text) {
-                    _hospitalNameTextController.text = text;
-                  },
+                  onChanged: (text) {},
                 ),
                 SizedBox(height: 19),
                 Text(
@@ -222,9 +192,7 @@ class _EmergencyEditScreenState extends State<EmergencyEditScreen> {
                     color: Color.fromRGBO(33, 33, 33, 1),
                     fontWeight: FontWeight.bold,
                   ),
-                  onChanged: (text) {
-                    _hcpTextController.text = text;
-                  },
+                  onChanged: (text) {},
                 ),
                 SizedBox(height: 35),
                 Text(
@@ -275,28 +243,27 @@ class _EmergencyEditScreenState extends State<EmergencyEditScreen> {
                   ),
                 ),
                 SizedBox(height: 27),
-                GestureDetector(
-                  child: Container(
-                    alignment: Alignment.center,
-                    height: 54,
-                    clipBehavior: Clip.hardEdge,
-                    decoration: BoxDecoration(
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: Size(double.infinity, 60),
+                    shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
-                      border: BoxBorder.all(
+                      side: BorderSide(
                         color: Color.fromRGBO(0, 145, 234, 1),
-                      ),
-                    ),
-                    child: Text(
-                      localizations.button_preview,
-                      style: TextStyle(
-                        color: Color.fromRGBO(0, 145, 234, 1),
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: "NotoSansCJKKR-Medium",
+                        width: 1,
                       ),
                     ),
                   ),
-                  onTap: () {
+                  child: Text(
+                    localizations.button_preview,
+                    style: TextStyle(
+                      color: Color.fromRGBO(0, 145, 234, 1),
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "NotoSansCJKKR-Medium",
+                    ),
+                  ),
+                  onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -306,29 +273,24 @@ class _EmergencyEditScreenState extends State<EmergencyEditScreen> {
                   },
                 ),
                 SizedBox(height: 15),
-                GestureDetector(
-                  child: Container(
-                    alignment: Alignment.center,
-                    height: 54,
-                    clipBehavior: Clip.hardEdge,
-                    decoration: BoxDecoration(
-                      color: Color.fromRGBO(0, 145, 234, 1),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color.fromRGBO(0, 145, 234, 1),
+                    minimumSize: Size(double.infinity, 60),
+                    shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
-                      border: BoxBorder.all(
-                        color: Color.fromRGBO(0, 145, 234, 1),
-                      ),
-                    ),
-                    child: Text(
-                      localizations.save,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: "NotoSansCJKKR-Medium",
-                      ),
                     ),
                   ),
-                  onTap: () {
+                  child: Text(
+                    localizations.save,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "NotoSansCJKKR-Medium",
+                    ),
+                  ),
+                  onPressed: () {
                     Navigator.pop(context, true);
                   },
                 ),
@@ -371,9 +333,7 @@ class _EmergencyEditScreenState extends State<EmergencyEditScreen> {
                 color: Color.fromRGBO(33, 33, 33, 1),
                 fontWeight: FontWeight.bold,
               ),
-              onChanged: (text) {
-                controller.text = text;
-              },
+              onChanged: (text) {},
             ),
           ),
         ),

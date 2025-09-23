@@ -313,6 +313,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Save'**
   String get save;
+
+  /// No description provided for @login_id_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'ID'**
+  String get login_id_hint;
+
+  /// No description provided for @login_password_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'PASSWORD'**
+  String get login_password_hint;
+
+  /// No description provided for @login_button.
+  ///
+  /// In en, this message translates to:
+  /// **'LOGIN'**
+  String get login_button;
 }
 
 class _AppLocalizationsDelegate

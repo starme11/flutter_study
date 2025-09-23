@@ -38,5 +38,8 @@
     "hospital_name": "병원명",
     "message_contents": "메시지 내용",
     "button_preview": "미리보기",
-    "save": "저장"
+    "save": "저장",
+    "login_id_hint": "아이디",
+    "login_password_hint": "비밀번호",
+    "login_button": "로그인"
 }

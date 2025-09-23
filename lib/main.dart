@@ -1,18 +1,18 @@
-import 'dart:convert';
+import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:setting/data/preference/app_preference.dart';
 import 'package:setting/data/preference/general_setting.dart';
 import 'package:setting/l10n/app_localizations.dart';
 import 'package:setting/network/api_service.dart';
 import 'package:setting/network/data/base_url.dart';
-import 'package:setting/screens/setting_screen.dart';
+import 'package:setting/screens/login_screen.dart';
 import 'package:setting/theme_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:uuid/uuid.dart';
 
 BaseUrl baseUrl = ApiService.getServiceUrl() as BaseUrl;
 
@@ -24,30 +24,30 @@ Future<void> main() async {
     ),
   );
 
+  await AppPreference.initPreference();
+
   await Firebase.initializeApp(); // Initialize Firebase
   await FirebaseRemoteConfig.instance.fetchAndActivate(); // Get Remote Config
+  if (Platform.isIOS) {
+    NotificationSettings settings = await FirebaseMessaging.instance
+        .requestPermission(alert: true, badge: true, sound: true);
 
-  SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      String? apnsToken = await FirebaseMessaging.instance.getAPNSToken();
 
-  String? generalSetting = prefs.getString("GENERAL_SETTING");
-  if (generalSetting != null) {
-    GeneralSetting setting = GeneralSetting.fromJson(
-      jsonDecode(generalSetting),
-    );
-    BaseUrl baseUrl = await ApiService.getServiceUrl();
-    setting.baseUrl = baseUrl.baseUrl;
-
-    setting.toJson();
-    prefs.setString("GENERAL_SETTING", jsonEncode(setting.toJson()));
-  } else {
-    // 최초 사용 - UUID Random 생성
-    GeneralSetting setting = GeneralSetting(deviceId: Uuid().v8(), baseUrl: "");
-    prefs.setString("GENERAL_SETTING", jsonEncode(setting.toJson()));
-    BaseUrl baseUrl = await ApiService.getServiceUrl();
-    setting.baseUrl = baseUrl.baseUrl;
-
-    prefs.setString("GENERAL_SETTING", jsonEncode(setting.toJson()));
+      while (apnsToken == null) {
+        await Future.delayed(const Duration(seconds: 1));
+        apnsToken = await FirebaseMessaging.instance.getAPNSToken();
+      }
+    }
   }
+  await FirebaseMessaging.instance.getToken(); // Get FCM Token
+
+  GeneralSetting setting = await AppPreference.getGeneralSetting();
+  BaseUrl baseUrl = await ApiService.getServiceUrl();
+  setting.baseUrl = baseUrl.baseUrl;
+
+  AppPreference.savePreference(setting);
 }
 
 class SettingApp extends StatefulWidget {
@@ -83,6 +83,7 @@ class _SettingAppState extends State<SettingApp> {
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,
         ),
+        fontFamily: "NotoSansKR",
         // 다른 라이트 모드 위젯 스타일 정의
       ),
       darkTheme: ThemeData(
@@ -92,8 +93,12 @@ class _SettingAppState extends State<SettingApp> {
           backgroundColor: Colors.black,
           foregroundColor: Colors.white,
         ),
+        fontFamily: "NotoSansKR",
       ),
-      home: const SettingScreen(),
+      home: Container(
+        color: themeProvider.isDarkMode() ? Colors.black : Colors.white,
+        child: LoginScreen(), // SettingScreen(),
+      ),
     );
   }
 }

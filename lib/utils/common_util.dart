@@ -22,4 +22,8 @@ class CommonUtil {
 
     return offset.isNegative ? "${offset.inMinutes}" : "-${offset.inMinutes}";
   }
+
+  static String getHashKey() {
+    return "al/naiH9Slf0RQHxU6tI3jA/MHI=";
+  }
 }

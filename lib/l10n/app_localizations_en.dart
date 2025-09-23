@@ -117,4 +117,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get save => 'Save';
+
+  @override
+  String get login_id_hint => 'ID';
+
+  @override
+  String get login_password_hint => 'PASSWORD';
+
+  @override
+  String get login_button => 'LOGIN';
 }

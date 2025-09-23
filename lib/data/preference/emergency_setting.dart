@@ -1,4 +1,10 @@
-class EmergencySetting {
+import 'package:setting/data/preference/app_preference.dart';
+import 'package:setting/data/preference/preference.dart';
+
+class EmergencySetting implements Preference {
+  @override
+  String PREFERENCE_NAME = "EMERGENCY_SETTING";
+
   bool useEmergencyCard;
   List<String> contact;
   String? hospital;
@@ -25,6 +31,7 @@ class EmergencySetting {
   }
 
   // 객체 → JSON
+  @override
   Map<String, dynamic> toJson() {
     return {
       'useEmergencyCard': useEmergencyCard,
@@ -33,5 +40,16 @@ class EmergencySetting {
       'doctor': doctor,
       'message': message,
     };
+  }
+
+  @override
+  void clear() {
+    useEmergencyCard = false;
+    contact = [" ", " ", " "];
+    hospital = null;
+    doctor = null;
+    message = null;
+
+    AppPreference.savePreference(this);
   }
 }

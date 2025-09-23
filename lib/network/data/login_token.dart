@@ -23,4 +23,6 @@ class LoginToken {
       expired: json['expired'],
     );
   }
+
+  
 }

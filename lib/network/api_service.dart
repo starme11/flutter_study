@@ -2,18 +2,19 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:http/http.dart' as http;
+import 'package:setting/data/preference/app_preference.dart';
 import 'package:setting/data/preference/general_setting.dart';
+import 'package:setting/data/preference/log_in_token.dart';
 import 'package:setting/network/data/base_url.dart';
 import 'package:setting/utils/common_util.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiService {
   static const String baseUrl = "https://api-dev.eobridge.com";
+  static String? oneTimeToken;
 
   static Future<Map<String, String>> getHeader() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    String? generalSetting = prefs.getString("GENERAL_SETTING");
+    GeneralSetting gs = await AppPreference.getGeneralSetting();
+    LogInToken token = await AppPreference.getLogInToken();
 
     Map<String, String> header = {};
     header["Accept"] = "application/json";
@@ -22,11 +23,14 @@ class ApiService {
     header["User-Agent"] = getUserAgent();
     header["X-Timezone-Offset"] = CommonUtil.getTimezoneOffset();
 
-    if (generalSetting != null) {
-      GeneralSetting setting = GeneralSetting.fromJson(
-        jsonDecode(generalSetting),
-      );
-      header["x-request-id"] = setting.deviceId;
+    header["x-request-id"] = gs.deviceId;
+    if (oneTimeToken != null && oneTimeToken!.isNotEmpty) {
+      header["Authorization"] = "Bearer $oneTimeToken";
+      oneTimeToken = null;
+    } else {
+      if (token.token?.isNotEmpty == true) {
+        header["Authorization"] = "Bearer ${token.token}";
+      }
     }
 
     return header;
@@ -54,5 +58,9 @@ class ApiService {
     }
 
     throw Error();
+  }
+
+  static void setOneTimeToken(String? token) {
+    oneTimeToken = token;
   }
 }

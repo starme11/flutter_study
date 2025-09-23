@@ -14,7 +14,7 @@ class AuthenticationService {
   ) async {
     Map<String, String> header = await ApiService.getHeader();
 
-    final url = Uri.parse("${ApiService.baseUrl}/auth/sign-in");
+    final url = Uri.parse("${ApiService.baseUrl}/auth/signin");
 
     final response = await http.post(
       url,
@@ -53,7 +53,7 @@ class AuthenticationService {
     throw Error();
   }
 
-  static Future<void> singOut() async {
+  static Future<void> signOut() async {
     Map<String, String> header = await ApiService.getHeader();
 
     final url = Uri.parse("${ApiService.baseUrl}/auth/signout");
@@ -64,6 +64,6 @@ class AuthenticationService {
       return;
     }
 
-    // throw Error();   // Signout은 실패해도 무시
+    // throw Error();   // SignOut 실패해도 무시
   }
 }

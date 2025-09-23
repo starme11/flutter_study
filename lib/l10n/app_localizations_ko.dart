@@ -116,4 +116,13 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get save => '저장';
+
+  @override
+  String get login_id_hint => '아이디';
+
+  @override
+  String get login_password_hint => '비밀번호';
+
+  @override
+  String get login_button => '로그인';
 }
