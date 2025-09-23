@@ -19,6 +19,7 @@ class AppPreference {
         baseUrl: "",
         lastLoginId: 0,
         lastLoginUsername: null,
+        lastLoginUserRole: null,
       );
       prefs.setString("GENERAL_SETTING", jsonEncode(setting.toJson()));
     }

@@ -15,6 +15,7 @@ import 'package:setting/network/eoica_service.dart';
 import 'package:setting/network/fcm_service.dart';
 import 'package:setting/network/setting_service.dart';
 import 'package:setting/network/user_service.dart';
+import 'package:setting/screens/setting_screen.dart';
 import 'package:setting/theme_provider.dart';
 import 'package:setting/utils/common_util.dart';
 
@@ -329,6 +330,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _onLoginSuccess() async {
     print("onLoginSuccess");
+
+    // Navigator를 미리 저장
+    final navigator = Navigator.of(context);
+
     LogInToken loginToken = await AppPreference.getLogInToken();
     SignInToken signInToken = await AppPreference.getSignInToken();
 
@@ -344,10 +349,15 @@ class _LoginScreenState extends State<LoginScreen> {
     User user = await AppPreference.getUser();
     gs.lastLoginUsername = user.username;
     gs.lastLoginUserRole = user.role;
-
     gs.lastLoginId = loginToken.pid ?? 0;
 
     AppPreference.savePreference(gs);
+
+    // 네비게이션 실행
+    navigator.pushAndRemoveUntil(
+      MaterialPageRoute(builder: (context) => SettingScreen()),
+      (Route<dynamic> route) => false,
+    );
   }
 
   void _onLoginFailure() {
