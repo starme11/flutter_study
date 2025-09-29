@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:setting/data/preference/app_preference.dart';
 import 'package:setting/data/preference/emergency_setting.dart';
 import 'package:setting/data/preference/user.dart';
 import 'package:setting/l10n/app_localizations.dart';
+import 'package:setting/service/service_locator.dart';
 import 'package:setting/theme_provider.dart';
 import 'package:setting/widgets/tool_bar.dart';
 
@@ -15,18 +15,15 @@ class EmergencyViewScreen extends StatefulWidget {
 }
 
 class _EmergencyViewScreenState extends State<EmergencyViewScreen> {
-  EmergencySetting setting = EmergencySetting(
-    useEmergencyCard: false,
-    contact: ["", "", ""],
-  );
-  User user = User();
+  late EmergencySetting setting;
+  late User user;
 
   @override
-  void initState() async {
+  void initState() {
     super.initState();
 
-    setting = await AppPreference.getEmergencySetting();
-    user = await AppPreference.getUser();
+    setting = ServiceLocator.instance.appPreference.getEmergencySetting();
+    user = ServiceLocator.instance.appPreference.getUser();
 
     setState(() {});
   }
@@ -39,11 +36,7 @@ class _EmergencyViewScreenState extends State<EmergencyViewScreen> {
     return Scaffold(
       appBar: ToolBar(
         title: localizations.emergency,
-        localizations: localizations,
         themeProvider: themeProvider,
-        onHomePressed: () {
-          print("onTapHomeButton");
-        },
         visibleHome: true,
       ),
       body: Column(
@@ -80,7 +73,7 @@ class _EmergencyViewScreenState extends State<EmergencyViewScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  localizations.string_name,
+                  localizations.name,
                   style: TextStyle(
                     fontFamily: "NotoSansCJKKR",
                     fontSize: 20,

@@ -16,8 +16,10 @@ import 'package:setting/network/fcm_service.dart';
 import 'package:setting/network/setting_service.dart';
 import 'package:setting/network/user_service.dart';
 import 'package:setting/screens/setting_screen.dart';
+import 'package:setting/service/service_locator.dart';
 import 'package:setting/theme_provider.dart';
 import 'package:setting/utils/common_util.dart';
+import 'package:setting/widgets/button.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -27,6 +29,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final AppPreference appPreference = ServiceLocator.instance.appPreference;
   final TextEditingController _idController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool isObscure = true;
@@ -73,15 +76,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   fontFamily: "NotoSansCJKKR",
                 ),
                 suffixIcon: _idController.text.isNotEmpty
-                    ? GestureDetector(
-                        onTap: () {
+                    ? ElevatedButton(
+                        onPressed: () {
                           setState(() {
-                            _idController.clear();
+                            _passwordController.clear();
                           });
                         },
                         child: Image.asset('assets/images/icClear35.png'),
                       )
-                    : null,
+                    : SizedBox.shrink(),
               ),
               style: TextStyle(
                 color: Color.fromRGBO(33, 33, 33, 1),
@@ -130,11 +133,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         : SizedBox.shrink(),
                     GestureDetector(
                       onTap: () {
-                        print("onTap - $isObscure");
                         setState(() {
                           isObscure = !isObscure;
                         });
-                        print("onTap - $isObscure");
                       },
                       child: isObscure
                           ? Image.asset('assets/images/icVisibilityOff35.png')
@@ -154,29 +155,14 @@ class _LoginScreenState extends State<LoginScreen> {
               },
             ),
             SizedBox(height: 40),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor:
-                    _idController.text.isNotEmpty &&
-                        _passwordController.text.isNotEmpty
-                    ? Color.fromRGBO(0, 145, 234, 1)
-                    : Color.fromRGBO(189, 189, 189, 1),
-                minimumSize: Size(double.infinity, 60),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              onPressed:
+            PrimaryPositiveButton(
+              text: localizations.login_button,
+              onTapEvent: () {
+                _signIn();
+              },
+              isEnabled:
                   _idController.text.isNotEmpty &&
-                      _passwordController.text.isNotEmpty
-                  ? () {
-                      _signIn();
-                    }
-                  : null,
-              child: Text(
-                localizations.login_button,
-                style: TextStyle(fontSize: 18, color: Colors.white),
-              ),
+                  _passwordController.text.isNotEmpty,
             ),
           ],
         ),
@@ -194,14 +180,14 @@ class _LoginScreenState extends State<LoginScreen> {
           print(
             "Login Success - ${value.id}, ${value.token}, ${value.created}, ${value.expired}, ${value.status}",
           );
-          SignInToken token = await AppPreference.getSignInToken();
+          SignInToken token = appPreference.getSignInToken();
           token.id = value.id;
           token.status = value.status;
           token.token = value.token;
           token.created = value.created;
           token.expired = value.expired;
 
-          AppPreference.savePreference(token);
+          appPreference.savePreference(token);
 
           mLoginToken = value.token;
 
@@ -214,14 +200,14 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _getUser(int id, int status) async {
-    GeneralSetting gs = await AppPreference.getGeneralSetting();
+    GeneralSetting gs = appPreference.getGeneralSetting();
 
     ApiService.setOneTimeToken(mLoginToken);
     UserService.getUser(id, gs.lastLoginId != id ? "phothData" : null)
         .then((value) async {
           print("Get User Success - ${value.id}, ${value.username}");
           // map 에 해당 하는 내용 추가 필요
-          User user = await AppPreference.getUser();
+          User user = appPreference.getUser();
           user.id = id;
           user.status = status;
 
@@ -254,7 +240,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
           user.serviceType = value.serviceType;
 
-          AppPreference.savePreference(user);
+          appPreference.savePreference(user);
 
           _registerEoica();
         })
@@ -265,7 +251,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _registerEoica() async {
-    GeneralSetting gs = await AppPreference.getGeneralSetting();
+    GeneralSetting gs = appPreference.getGeneralSetting();
 
     ApiService.setOneTimeToken(mLoginToken);
     EoicaService.registerEoica(
@@ -309,7 +295,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _findOneSettings() async {
-    User user = await AppPreference.getUser();
+    User user = appPreference.getUser();
 
     ApiService.setOneTimeToken(mLoginToken);
 
@@ -334,24 +320,24 @@ class _LoginScreenState extends State<LoginScreen> {
     // Navigator를 미리 저장
     final navigator = Navigator.of(context);
 
-    LogInToken loginToken = await AppPreference.getLogInToken();
-    SignInToken signInToken = await AppPreference.getSignInToken();
+    LogInToken loginToken = appPreference.getLogInToken();
+    SignInToken signInToken = appPreference.getSignInToken();
 
     loginToken.pid = signInToken.id;
     loginToken.token = signInToken.token;
     loginToken.created = signInToken.created;
     loginToken.expired = signInToken.expired;
 
-    AppPreference.savePreference(loginToken);
+    appPreference.savePreference(loginToken);
     signInToken.clear();
 
-    GeneralSetting gs = await AppPreference.getGeneralSetting();
-    User user = await AppPreference.getUser();
+    GeneralSetting gs = appPreference.getGeneralSetting();
+    User user = appPreference.getUser();
     gs.lastLoginUsername = user.username;
     gs.lastLoginUserRole = user.role;
     gs.lastLoginId = loginToken.pid ?? 0;
 
-    AppPreference.savePreference(gs);
+    appPreference.savePreference(gs);
 
     // 네비게이션 실행
     navigator.pushAndRemoveUntil(
@@ -362,15 +348,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _onLoginFailure() {
     print("_onLoginFailure");
-    AppPreference.getLogInToken().then((token) {
-      token.clear();
-    });
-    AppPreference.getSignInToken().then((token) {
-      token.clear();
-    });
-    AppPreference.getUser().then((user) {
-      user.clear();
-    });
+    appPreference.getLogInToken().clear();
+    appPreference.getSignInToken().clear();
+    appPreference.getUser().clear();
+
     _idController.clear();
     _passwordController.clear();
     setState(() {});

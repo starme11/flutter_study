@@ -1,7 +1,6 @@
-import 'package:setting/data/preference/app_preference.dart';
 import 'package:setting/data/preference/preference.dart';
 
-class User implements Preference {
+class User extends Preference {
   @override
   String PREFERENCE_NAME = "USER";
 
@@ -168,6 +167,6 @@ class User implements Preference {
     // privacyPolicyConsents = null;
     serviceType = null;
 
-    AppPreference.savePreference(this);
+    appPreference.savePreference(this);
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:setting/l10n/app_localizations.dart';
 import 'package:setting/screens/cs_screen.dart';
+import 'package:setting/screens/delivery_setting_screen.dart';
 import 'package:setting/screens/emergency_edit_screen.dart';
 import 'package:setting/screens/general_setting_screen.dart';
 import 'package:setting/theme_provider.dart';
@@ -20,13 +21,14 @@ class SettingScreen extends StatelessWidget {
       localizations.setting_privacy_security_title,
       localizations.setting_my_device_title,
       localizations.delivery_setting_title,
-      localizations.string_alarm_alert_reminder,
+      localizations.alarm_alert_reminder,
       localizations.emergency,
       localizations.general_setting_title,
       localizations.cs,
     ];
 
-    void onTapItem(String title) {
+    void onTapItem(int index) {
+      final title = items[index];
       if (title == localizations.general_setting_title) {
         Navigator.push(
           context,
@@ -46,17 +48,18 @@ class SettingScreen extends StatelessWidget {
           context,
           MaterialPageRoute(builder: (context) => EmergencyEditScreen()),
         );
+      } else if (title == localizations.delivery_setting_title) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => DeliverySettingScreen()),
+        );
       }
     }
 
     return Scaffold(
       appBar: ToolBar(
-        title: localizations.string_title_setting,
-        localizations: localizations,
+        title: localizations.title_setting,
         themeProvider: themeProvider,
-        onHomePressed: () {
-          print("onTapHomeButton");
-        },
         visibleHome: true,
       ),
       body: Container(

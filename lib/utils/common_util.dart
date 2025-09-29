@@ -9,7 +9,7 @@ class CommonUtil {
 
     for (Map<String, dynamic> json in jsonArray) {
       if (json["locale"] == language) {
-        return json["address"];
+        return json["address"].replaceAll('\\n', '\n');
       }
     }
 

@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:setting/l10n/app_localizations.dart';
+import 'package:setting/screens/setting_screen.dart';
 import 'package:setting/theme_provider.dart';
 
 class ToolBar extends StatelessWidget implements PreferredSizeWidget {
   const ToolBar({
     super.key,
     required this.title,
-    required this.localizations,
     required this.themeProvider,
-    this.onHomePressed,
     this.visibleHome = false,
   });
 
   final String title;
-  final AppLocalizations localizations;
   final ThemeProvider themeProvider;
-  final VoidCallback? onHomePressed;
   final bool visibleHome;
 
   @override
@@ -30,7 +26,12 @@ class ToolBar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         // Home Button
         IconButton(
-          onPressed: onHomePressed,
+          onPressed: () {
+            Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => SettingScreen()),
+              (Route<dynamic> route) => false,
+            );
+          },
           icon: Icon(
             Icons.home_outlined,
             color: themeProvider.isDarkMode() ? Colors.white : Colors.black,

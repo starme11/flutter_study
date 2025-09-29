@@ -10,8 +10,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
 class AppPreference {
-  static Future<SharedPreferences> initPreference() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+  late final SharedPreferences prefs;
+
+  Future<SharedPreferences> initPreference() async {
+    prefs = await SharedPreferences.getInstance();
 
     if (!prefs.containsKey("GENERAL_SETTING")) {
       GeneralSetting setting = GeneralSetting(
@@ -64,9 +66,7 @@ class AppPreference {
     return prefs;
   }
 
-  static Future<GeneralSetting> getGeneralSetting() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
+  GeneralSetting getGeneralSetting() {
     String json = prefs.getString("GENERAL_SETTING") ?? "";
 
     return GeneralSetting.fromJson(jsonDecode(json));
@@ -78,9 +78,7 @@ class AppPreference {
   //   prefs.setString("GENERAL_SETTING", jsonEncode(setting.toJson()));
   // }
 
-  static Future<EmergencySetting> getEmergencySetting() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
+  EmergencySetting getEmergencySetting() {
     String json = prefs.getString("EMERGENCY_SETTING") ?? "";
 
     return EmergencySetting.fromJson(jsonDecode(json));
@@ -92,9 +90,7 @@ class AppPreference {
   //   prefs.setString("EMERGENCY_SETTING", jsonEncode(setting.toJson()));
   // }
 
-  static Future<User> getUser() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
+  User getUser() {
     String json = prefs.getString("USER") ?? "";
 
     return User.fromJson(jsonDecode(json));
@@ -106,37 +102,19 @@ class AppPreference {
   //   prefs.setString("USER", jsonEncode(user.toJson()));
   // }
 
-  static Future<LogInToken> getLogInToken() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
+  LogInToken getLogInToken() {
     String json = prefs.getString("LOG_IN_TOKEN") ?? "";
 
     return LogInToken.fromJson(jsonDecode(json));
   }
 
-  // static void saveLogInToken(LogInToken token) async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-
-  //   prefs.setString("LOG_IN_TOKEN", jsonEncode(token.toJson()));
-  // }
-
-  static Future<SignInToken> getSignInToken() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
+  SignInToken getSignInToken() {
     String json = prefs.getString("SIGN_IN_TOKEN") ?? "";
 
     return SignInToken.fromJson(jsonDecode(json));
   }
 
-  // static void saveSignInToken(SignInToken token) async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-
-  //   prefs.setString("SIGN_IN_TOKEN", jsonEncode(token.toJson()));
-  // }
-
-  static void savePreference(Preference preference) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
+  void savePreference(Preference preference) {
     prefs.setString(
       preference.PREFERENCE_NAME,
       jsonEncode(preference.toJson()),

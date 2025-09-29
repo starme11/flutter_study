@@ -9,7 +9,7 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get string_title_setting => 'Settings';
+  String get title_setting => 'Settings';
 
   @override
   String get setting_privacy_security_title => 'Privacy / Security';
@@ -21,7 +21,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get delivery_setting_title => 'My delivery info';
 
   @override
-  String get string_alarm_alert_reminder => 'Alarm/Alert/Reminder';
+  String get alarm_alert_reminder => 'Alarm/Alert/Reminder';
 
   @override
   String get emergency => 'Emergency';
@@ -36,7 +36,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get day_night_time_setting => 'Day/Night time settings';
 
   @override
-  String get string_sound_and_vibrate => 'Sound and vibrate';
+  String get sound_and_vibrate => 'Sound and vibrate';
 
   @override
   String get theme_setting => 'Theme settings';
@@ -66,23 +66,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get company_info => 'Company information';
 
   @override
-  String get string_eoflow_address_title => 'EOFLOW address';
+  String get eoflow_address_title => 'EOFLOW address';
 
   @override
-  String get string_eoflow_address_content =>
+  String get eoflow_address_content =>
       '25, Gyeongchung-daero 295beon-gil, Gonjiam-eup, Gwangju-si, Gyeonggi-do, Republic of Korea';
 
   @override
-  String get string_eoflow_homepage => 'EOFLOW homepage';
+  String get eoflow_homepage => 'EOFLOW homepage';
 
   @override
-  String get string_eoflow_url => 'http://www.eoflow.com';
+  String get eoflow_url => 'http://www.eoflow.com';
 
   @override
   String get policy => 'Policy';
 
   @override
-  String get string_open_source_license => 'Open Source License';
+  String get open_source_license => 'Open Source License';
 
   @override
   String get channel_name_emergency => 'Emergency Card';
@@ -92,7 +92,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'I am a diabetic patient. Please call the emergency number contact the nearest hospital if I passed out.';
 
   @override
-  String get string_name => 'Name';
+  String get name => 'Name';
 
   @override
   String get profile_info_type_diabetes_hint => 'Diabetes type';
@@ -116,9 +116,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get button_preview => 'Preview';
 
   @override
-  String get save => 'Save';
-
-  @override
   String get login_id_hint => 'ID';
 
   @override
@@ -126,4 +123,66 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get login_button => 'LOGIN';
+
+  @override
+  String get basal_program_management => 'Basal program management';
+
+  @override
+  String get temp_basal_preset_management => 'Temp basal preset management';
+
+  @override
+  String get bolus_preset_management => 'Bolus preset management';
+
+  @override
+  String get carb_preset_management => 'Carb preset management';
+
+  @override
+  String get bg_target_range => 'BG target range';
+
+  @override
+  String get basal_temp_delivery => 'Basal/Temp delivery';
+
+  @override
+  String get max_bolus_title => 'Max bolus';
+
+  @override
+  String get setting_bolus_calculator => 'Bolus calc settings';
+
+  @override
+  String get no_bolus_preset => 'Add new bolus presets.';
+
+  @override
+  String get bolus => 'Bolus';
+
+  @override
+  String get insulin => 'Insulin';
+
+  @override
+  String delete_preset(Object presetName) {
+    return 'Delete \'$presetName\'?';
+  }
+
+  @override
+  String get confirm => '확인';
+
+  @override
+  String get add_new => 'Add new';
+
+  @override
+  String get save => 'Save';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get edit => 'Edit';
+
+  @override
+  String get delete => 'Delete';
+
+  @override
+  String get copy => 'Copy';
+
+  @override
+  String get dialog_title_insulin => 'Insulin dose';
 }

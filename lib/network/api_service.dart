@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:http/http.dart' as http;
-import 'package:setting/data/preference/app_preference.dart';
 import 'package:setting/data/preference/general_setting.dart';
 import 'package:setting/data/preference/log_in_token.dart';
 import 'package:setting/network/data/base_url.dart';
+import 'package:setting/service/service_locator.dart';
 import 'package:setting/utils/common_util.dart';
 
 class ApiService {
@@ -13,8 +13,9 @@ class ApiService {
   static String? oneTimeToken;
 
   static Future<Map<String, String>> getHeader() async {
-    GeneralSetting gs = await AppPreference.getGeneralSetting();
-    LogInToken token = await AppPreference.getLogInToken();
+    GeneralSetting gs = ServiceLocator.instance.appPreference
+        .getGeneralSetting();
+    LogInToken token = ServiceLocator.instance.appPreference.getLogInToken();
 
     Map<String, String> header = {};
     header["Accept"] = "application/json";

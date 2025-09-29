@@ -1,7 +1,6 @@
-import 'package:setting/data/preference/app_preference.dart';
 import 'package:setting/data/preference/preference.dart';
 
-class SignInToken implements Preference {
+class SignInToken extends Preference {
   @override
   String PREFERENCE_NAME = "SIGN_IN_TOKEN";
 
@@ -49,7 +48,7 @@ class SignInToken implements Preference {
     created = null;
     expired = null;
 
-    AppPreference.savePreference(this);
+    appPreference.savePreference(this);
   }
 
   bool isValid() {

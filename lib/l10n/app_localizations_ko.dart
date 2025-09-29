@@ -9,7 +9,7 @@ class AppLocalizationsKo extends AppLocalizations {
   AppLocalizationsKo([String locale = 'ko']) : super(locale);
 
   @override
-  String get string_title_setting => '설정';
+  String get title_setting => '설정';
 
   @override
   String get setting_privacy_security_title => '개인 / 보안';
@@ -21,7 +21,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get delivery_setting_title => '나의 주입 정보';
 
   @override
-  String get string_alarm_alert_reminder => '위험경고/위험주의/알림';
+  String get alarm_alert_reminder => '위험경고/위험주의/알림';
 
   @override
   String get emergency => '응급';
@@ -36,7 +36,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get day_night_time_setting => '낮/밤 시간 설정';
 
   @override
-  String get string_sound_and_vibrate => '소리 및 진동';
+  String get sound_and_vibrate => '소리 및 진동';
 
   @override
   String get theme_setting => '테마 설정';
@@ -66,22 +66,22 @@ class AppLocalizationsKo extends AppLocalizations {
   String get company_info => '회사 정보';
 
   @override
-  String get string_eoflow_address_title => '이오플로우 주소';
+  String get eoflow_address_title => '이오플로우 주소';
 
   @override
-  String get string_eoflow_address_content => '경기도 광주시 곤지암읍\n경충대로 295번길 25';
+  String get eoflow_address_content => '경기도 광주시 곤지암읍\n경충대로 295번길 25';
 
   @override
-  String get string_eoflow_homepage => '이오플로우 홈페이지';
+  String get eoflow_homepage => '이오플로우 홈페이지';
 
   @override
-  String get string_eoflow_url => 'http://www.eoflow.com';
+  String get eoflow_url => 'http://www.eoflow.com';
 
   @override
   String get policy => '정책';
 
   @override
-  String get string_open_source_license => '오픈 소스 라이선스';
+  String get open_source_license => '오픈 소스 라이선스';
 
   @override
   String get channel_name_emergency => '응급의료카드';
@@ -91,7 +91,7 @@ class AppLocalizationsKo extends AppLocalizations {
       '저는 당뇨 환자입니다. 의식을 잃은 경우 119 혹은 가까운 병원에 연락해주세요.';
 
   @override
-  String get string_name => '이름';
+  String get name => '이름';
 
   @override
   String get profile_info_type_diabetes_hint => '당뇨타입';
@@ -115,9 +115,6 @@ class AppLocalizationsKo extends AppLocalizations {
   String get button_preview => '미리보기';
 
   @override
-  String get save => '저장';
-
-  @override
   String get login_id_hint => '아이디';
 
   @override
@@ -125,4 +122,66 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get login_button => '로그인';
+
+  @override
+  String get basal_program_management => '기초주입 프로그램 관리';
+
+  @override
+  String get temp_basal_preset_management => '일시 기초주입 프리셋 관리';
+
+  @override
+  String get bolus_preset_management => '볼루스 프리셋 관리';
+
+  @override
+  String get carb_preset_management => '탄수화물 프리셋 관리';
+
+  @override
+  String get bg_target_range => '목표 혈당 범위';
+
+  @override
+  String get basal_temp_delivery => '기초/일시기초 주입';
+
+  @override
+  String get max_bolus_title => '최대 볼루스';
+
+  @override
+  String get setting_bolus_calculator => '볼루스 계산기';
+
+  @override
+  String get no_bolus_preset => '볼루스 프리셋을 추가하세요.';
+
+  @override
+  String get bolus => '볼루스';
+
+  @override
+  String get insulin => '인슐린';
+
+  @override
+  String delete_preset(Object presetName) {
+    return '\'$presetName\' 프리셋을 삭제하시겠습니까?';
+  }
+
+  @override
+  String get confirm => '확인';
+
+  @override
+  String get add_new => '추가';
+
+  @override
+  String get save => '저장';
+
+  @override
+  String get cancel => '취소';
+
+  @override
+  String get edit => '편집';
+
+  @override
+  String get delete => '삭제';
+
+  @override
+  String get copy => '복사';
+
+  @override
+  String get dialog_title_insulin => '인슐린 주입량';
 }

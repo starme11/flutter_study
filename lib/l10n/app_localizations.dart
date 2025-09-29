@@ -98,11 +98,11 @@ abstract class AppLocalizations {
     Locale('ko'),
   ];
 
-  /// No description provided for @string_title_setting.
+  /// No description provided for @title_setting.
   ///
   /// In en, this message translates to:
   /// **'Settings'**
-  String get string_title_setting;
+  String get title_setting;
 
   /// No description provided for @setting_privacy_security_title.
   ///
@@ -122,11 +122,11 @@ abstract class AppLocalizations {
   /// **'My delivery info'**
   String get delivery_setting_title;
 
-  /// No description provided for @string_alarm_alert_reminder.
+  /// No description provided for @alarm_alert_reminder.
   ///
   /// In en, this message translates to:
   /// **'Alarm/Alert/Reminder'**
-  String get string_alarm_alert_reminder;
+  String get alarm_alert_reminder;
 
   /// No description provided for @emergency.
   ///
@@ -152,11 +152,11 @@ abstract class AppLocalizations {
   /// **'Day/Night time settings'**
   String get day_night_time_setting;
 
-  /// No description provided for @string_sound_and_vibrate.
+  /// No description provided for @sound_and_vibrate.
   ///
   /// In en, this message translates to:
   /// **'Sound and vibrate'**
-  String get string_sound_and_vibrate;
+  String get sound_and_vibrate;
 
   /// No description provided for @theme_setting.
   ///
@@ -212,29 +212,29 @@ abstract class AppLocalizations {
   /// **'Company information'**
   String get company_info;
 
-  /// No description provided for @string_eoflow_address_title.
+  /// No description provided for @eoflow_address_title.
   ///
   /// In en, this message translates to:
   /// **'EOFLOW address'**
-  String get string_eoflow_address_title;
+  String get eoflow_address_title;
 
-  /// No description provided for @string_eoflow_address_content.
+  /// No description provided for @eoflow_address_content.
   ///
   /// In en, this message translates to:
   /// **'25, Gyeongchung-daero 295beon-gil, Gonjiam-eup, Gwangju-si, Gyeonggi-do, Republic of Korea'**
-  String get string_eoflow_address_content;
+  String get eoflow_address_content;
 
-  /// No description provided for @string_eoflow_homepage.
+  /// No description provided for @eoflow_homepage.
   ///
   /// In en, this message translates to:
   /// **'EOFLOW homepage'**
-  String get string_eoflow_homepage;
+  String get eoflow_homepage;
 
-  /// No description provided for @string_eoflow_url.
+  /// No description provided for @eoflow_url.
   ///
   /// In en, this message translates to:
   /// **'http://www.eoflow.com'**
-  String get string_eoflow_url;
+  String get eoflow_url;
 
   /// No description provided for @policy.
   ///
@@ -242,11 +242,11 @@ abstract class AppLocalizations {
   /// **'Policy'**
   String get policy;
 
-  /// No description provided for @string_open_source_license.
+  /// No description provided for @open_source_license.
   ///
   /// In en, this message translates to:
   /// **'Open Source License'**
-  String get string_open_source_license;
+  String get open_source_license;
 
   /// No description provided for @channel_name_emergency.
   ///
@@ -260,11 +260,11 @@ abstract class AppLocalizations {
   /// **'I am a diabetic patient. Please call the emergency number contact the nearest hospital if I passed out.'**
   String get emergency_card_message;
 
-  /// No description provided for @string_name.
+  /// No description provided for @name.
   ///
   /// In en, this message translates to:
   /// **'Name'**
-  String get string_name;
+  String get name;
 
   /// No description provided for @profile_info_type_diabetes_hint.
   ///
@@ -308,12 +308,6 @@ abstract class AppLocalizations {
   /// **'Preview'**
   String get button_preview;
 
-  /// No description provided for @save.
-  ///
-  /// In en, this message translates to:
-  /// **'Save'**
-  String get save;
-
   /// No description provided for @login_id_hint.
   ///
   /// In en, this message translates to:
@@ -331,6 +325,126 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'LOGIN'**
   String get login_button;
+
+  /// No description provided for @basal_program_management.
+  ///
+  /// In en, this message translates to:
+  /// **'Basal program management'**
+  String get basal_program_management;
+
+  /// No description provided for @temp_basal_preset_management.
+  ///
+  /// In en, this message translates to:
+  /// **'Temp basal preset management'**
+  String get temp_basal_preset_management;
+
+  /// No description provided for @bolus_preset_management.
+  ///
+  /// In en, this message translates to:
+  /// **'Bolus preset management'**
+  String get bolus_preset_management;
+
+  /// No description provided for @carb_preset_management.
+  ///
+  /// In en, this message translates to:
+  /// **'Carb preset management'**
+  String get carb_preset_management;
+
+  /// No description provided for @bg_target_range.
+  ///
+  /// In en, this message translates to:
+  /// **'BG target range'**
+  String get bg_target_range;
+
+  /// No description provided for @basal_temp_delivery.
+  ///
+  /// In en, this message translates to:
+  /// **'Basal/Temp delivery'**
+  String get basal_temp_delivery;
+
+  /// No description provided for @max_bolus_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Max bolus'**
+  String get max_bolus_title;
+
+  /// No description provided for @setting_bolus_calculator.
+  ///
+  /// In en, this message translates to:
+  /// **'Bolus calc settings'**
+  String get setting_bolus_calculator;
+
+  /// No description provided for @no_bolus_preset.
+  ///
+  /// In en, this message translates to:
+  /// **'Add new bolus presets.'**
+  String get no_bolus_preset;
+
+  /// No description provided for @bolus.
+  ///
+  /// In en, this message translates to:
+  /// **'Bolus'**
+  String get bolus;
+
+  /// No description provided for @insulin.
+  ///
+  /// In en, this message translates to:
+  /// **'Insulin'**
+  String get insulin;
+
+  /// No description provided for @delete_preset.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete \'{presetName}\'?'**
+  String delete_preset(Object presetName);
+
+  /// No description provided for @confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'확인'**
+  String get confirm;
+
+  /// No description provided for @add_new.
+  ///
+  /// In en, this message translates to:
+  /// **'Add new'**
+  String get add_new;
+
+  /// No description provided for @save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @edit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get edit;
+
+  /// No description provided for @delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
+
+  /// No description provided for @copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get copy;
+
+  /// No description provided for @dialog_title_insulin.
+  ///
+  /// In en, this message translates to:
+  /// **'Insulin dose'**
+  String get dialog_title_insulin;
 }
 
 class _AppLocalizationsDelegate

@@ -1,7 +1,6 @@
-import 'package:setting/data/preference/app_preference.dart';
 import 'package:setting/data/preference/preference.dart';
 
-class GeneralSetting implements Preference {
+class GeneralSetting extends Preference {
   @override
   String PREFERENCE_NAME = "GENERAL_SETTING";
 
@@ -49,6 +48,6 @@ class GeneralSetting implements Preference {
     lastLoginUsername = null;
     lastLoginUserRole = null;
 
-    AppPreference.savePreference(this);
+    appPreference.savePreference(this);
   }
 }

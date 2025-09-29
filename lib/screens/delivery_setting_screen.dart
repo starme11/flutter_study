@@ -1,14 +1,13 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:setting/l10n/app_localizations.dart';
+import 'package:setting/screens/bolus_preset_screen.dart';
 import 'package:setting/theme_provider.dart';
-import 'package:setting/utils/common_util.dart';
 import 'package:setting/widgets/custom_listview.dart';
 import 'package:setting/widgets/tool_bar.dart';
 
-class CsScreen extends StatelessWidget {
-  const CsScreen({super.key});
+class DeliverySettingScreen extends StatelessWidget {
+  const DeliverySettingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,34 +15,29 @@ class CsScreen extends StatelessWidget {
     final themeProvider = Provider.of<ThemeProvider>(context);
 
     final items = [
-      localizations.help,
-      localizations.notice,
-      localizations.terms_and_conditions,
-      localizations.privacy_policy,
-      MapEntry(localizations.company_info, true),
-      MapEntry(
-        MapEntry(
-          localizations.eoflow_address_title,
-          CommonUtil.getAddress(
-                PlatformDispatcher.instance.locale.languageCode,
-              ) ??
-              localizations.eoflow_address_content,
-        ),
-        false,
-      ),
-      MapEntry(
-        MapEntry(localizations.eoflow_homepage, localizations.eoflow_url),
-        false,
-      ),
+      localizations.basal_program_management,
+      localizations.temp_basal_preset_management,
+      localizations.bolus_preset_management,
+      localizations.carb_preset_management,
+      localizations.bg_target_range,
+      localizations.sound_and_vibrate,
+      localizations.basal_temp_delivery,
+      localizations.max_bolus_title,
+      localizations.setting_bolus_calculator,
     ];
 
     void onTapItem(int index) {
-      print("onTap $items[index]");
+      if (items[index] == localizations.bolus_preset_management) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => BolusPresetScreen()),
+        );
+      }
     }
 
     return Scaffold(
       appBar: ToolBar(
-        title: localizations.cs,
+        title: localizations.delivery_setting_title,
         themeProvider: themeProvider,
         visibleHome: true,
       ),

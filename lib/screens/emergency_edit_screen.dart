@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:setting/data/preference/app_preference.dart';
 import 'package:setting/data/preference/emergency_setting.dart';
 import 'package:setting/l10n/app_localizations.dart';
 import 'package:setting/screens/emergency_view_screen.dart';
+import 'package:setting/service/service_locator.dart';
+import 'package:setting/widgets/button.dart';
 import 'package:setting/widgets/tool_bar.dart';
 
 import '../theme_provider.dart';
@@ -16,10 +17,7 @@ class EmergencyEditScreen extends StatefulWidget {
 }
 
 class _EmergencyEditScreenState extends State<EmergencyEditScreen> {
-  EmergencySetting setting = EmergencySetting(
-    useEmergencyCard: false,
-    contact: ["", "", ""],
-  );
+  late EmergencySetting setting;
 
   late TextEditingController _contact1TextController;
   late TextEditingController _contact2TextController;
@@ -39,11 +37,8 @@ class _EmergencyEditScreenState extends State<EmergencyEditScreen> {
     _hcpTextController = TextEditingController(text: "");
     _messageTextController = TextEditingController(text: "");
 
-    AppPreference.getEmergencySetting().then((value) {
-      setState(() {
-        setting = value;
-      });
-    });
+    setting = ServiceLocator.instance.appPreference.getEmergencySetting();
+    setState(() {});
   }
 
   @override
@@ -64,7 +59,7 @@ class _EmergencyEditScreenState extends State<EmergencyEditScreen> {
     setting.doctor = _hcpTextController.text;
     setting.message = _messageTextController.text;
 
-    AppPreference.savePreference(setting);
+    ServiceLocator.instance.appPreference.savePreference(setting);
   }
 
   @override
@@ -83,11 +78,7 @@ class _EmergencyEditScreenState extends State<EmergencyEditScreen> {
     return Scaffold(
       appBar: ToolBar(
         title: localizations.channel_name_emergency,
-        localizations: localizations,
         themeProvider: themeProvider,
-        onHomePressed: () {
-          print("onTapHomeButton");
-        },
         visibleHome: true,
       ),
       body: SingleChildScrollView(
@@ -243,27 +234,9 @@ class _EmergencyEditScreenState extends State<EmergencyEditScreen> {
                   ),
                 ),
                 SizedBox(height: 27),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: Size(double.infinity, 60),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      side: BorderSide(
-                        color: Color.fromRGBO(0, 145, 234, 1),
-                        width: 1,
-                      ),
-                    ),
-                  ),
-                  child: Text(
-                    localizations.button_preview,
-                    style: TextStyle(
-                      color: Color.fromRGBO(0, 145, 234, 1),
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: "NotoSansCJKKR-Medium",
-                    ),
-                  ),
-                  onPressed: () {
+                SecondaryPositiveButton(
+                  text: localizations.button_preview,
+                  onTapEvent: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -271,28 +244,16 @@ class _EmergencyEditScreenState extends State<EmergencyEditScreen> {
                       ),
                     );
                   },
+                  isEnabled: false,
                 ),
                 SizedBox(height: 15),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromRGBO(0, 145, 234, 1),
-                    minimumSize: Size(double.infinity, 60),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  child: Text(
-                    localizations.save,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: "NotoSansCJKKR-Medium",
-                    ),
-                  ),
-                  onPressed: () {
+                PrimaryPositiveButton(
+                  text: localizations.save,
+                  onTapEvent: () {
+                    print("onTapEvent");
                     Navigator.pop(context, true);
                   },
+                  isEnabled: true,
                 ),
               ],
             ),
@@ -321,8 +282,8 @@ class _EmergencyEditScreenState extends State<EmergencyEditScreen> {
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
-                suffixIcon: GestureDetector(
-                  onTap: () {
+                suffixIcon: ElevatedButton(
+                  onPressed: () {
                     print("onTap - 1");
                   },
                   child: Image.asset('assets/images/icon.png'),

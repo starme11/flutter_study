@@ -15,25 +15,21 @@ class GeneralSettingScreen extends StatelessWidget {
 
     final items = [
       localizations.day_night_time_setting,
-      localizations.string_sound_and_vibrate,
+      localizations.sound_and_vibrate,
       localizations.theme_setting,
       localizations.widget_setting_title,
       MapEntry(MapEntry(localizations.version_info_title, "0.0.0"), true),
       localizations.info_narsha,
     ];
 
-    void onTapItem(String title) {
-      print("onTap $title");
+    void onTapItem(int index) {
+      print("onTap ${items[index]}");
     }
 
     return Scaffold(
       appBar: ToolBar(
         title: localizations.general_setting_title,
-        localizations: localizations,
         themeProvider: themeProvider,
-        onHomePressed: () {
-          print("onTapHomeButton");
-        },
         visibleHome: true,
       ),
       body: Container(
